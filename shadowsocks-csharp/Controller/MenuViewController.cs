@@ -409,8 +409,6 @@ namespace Shadowsocks.Controller
                 urls.RemoveAll(url => !url.StartsWith(@"ssr://"));
                 if (urls.Count > 0)
                 {
-                    urls.Reverse();
-
                     lastGroup = Global.UpdateSubscribeManager.CurrentServerSubscribe.OriginTag;
                     if (string.IsNullOrEmpty(lastGroup))
                     {
@@ -471,6 +469,12 @@ namespace Shadowsocks.Controller
                         {
                             // ignored
                         }
+                    }
+
+                    //Group name is not empty
+                    foreach (var newServer in newServers.Where(newServer => string.IsNullOrEmpty(newServer.Group)))
+                    {
+                        newServer.Group = lastGroup;
                     }
 
                     count = newServers.Count;
